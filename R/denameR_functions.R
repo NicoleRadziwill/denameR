@@ -34,7 +34,8 @@ removeNames <- function(text, namelist) {
        df[startat, endat] <- tm::removeWords(text, namelist)
     }
     
-    # Parallel is potential enhancement: incorporate future.apply package
+    # Parallel is potential enhancement: see
+    # https://towardsdatascience.com/getting-started-with-parallel-programming-in-r-d5f801d43745 or 
     # https://tmieno2.github.io/R-as-GIS-for-Economists/parcomp.html 
     
     results <- df %>% mutate(noname=tm::removeWords(var, namelist$name))
