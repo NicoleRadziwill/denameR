@@ -10,6 +10,7 @@ buildNames <- function(lower, upper) {
     babynames %>% filter(year>(lower-1) & year<(upper+1)) %>% 
        select(name,n) %>% group_by(name) %>% mutate(total=sum(n)) %>% 
        arrange(desc(n)) %>% distinct(name, total) -> df
+    df$lcname <- tolower(df$name)
     return(df)
 }
 
@@ -31,7 +32,8 @@ removeNames <- function(text, namelist) {
     
     for (i in 1:(gnum+1)) {
        start_at <- start[i]; end_at <- end[i]
-       df[startat, endat] <- tm::removeWords(text, namelist)
+       # go through each block of 4000 names & scrub over and over
+       x[i] <- tm::removeWords(x[i-1], namelist$lcname[start[i]:end[i]])
     }
     
     # Parallel is potential enhancement: see
